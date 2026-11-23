@@ -73,8 +73,22 @@
 
 ## 发布成 GitHub Pages
 
-完整步骤见 **[DEPLOY.md](DEPLOY.md)**。核心流程只有三步：
+完整步骤见 **[DEPLOY.md](DEPLOY.md)**。本地仓库已经初始化并提交，用 Git 命令只需三步：
 
-1. 新建一个 **Public** 仓库，把根目录文件全部上传。
-2. Settings → Pages → Deploy from a branch → `main` / `/ (root)` → Save。
-3. 等待 1—3 分钟，访问 `https://<你的用户名>.github.io/<仓库名>/`，手机上“添加到主屏幕”。
+1. GitHub 新建 **Public** 空仓库（不要勾选 README）。
+2. 在项目目录执行：
+
+```powershell
+cd "C:\Users\Admin\Desktop\作品\D\D2"
+$env:Path += ";C:\Program Files\Git\cmd"
+git remote add origin https://github.com/<你的用户名>/shenlun-jingwei.git
+git push -u origin main
+```
+
+3. 仓库 Settings → Pages → `main` / `/ (root)` → Save，等待 1—3 分钟，访问：
+
+```text
+https://<你的用户名>.github.io/shenlun-jingwei/
+```
+
+手机上用 Safari / Chrome 打开，再“添加到主屏幕”。

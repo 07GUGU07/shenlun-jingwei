@@ -1,12 +1,227 @@
-# 把「申论经纬」发布成 GitHub Pages
+# 用 Git 命令发布「申论经纬」到 GitHub Pages
 
-这个网页是纯静态页面，不需要服务器、不需要数据库、不需要构建命令。把文件放进 GitHub 仓库，开启 Pages 就能得到一个手机可访问的网址。
+> 这一版按你的要求，以 **Git 命令**为主，不需要下载 GitHub Desktop，也不需要手动拖文件上传。
+> 本地仓库已经初始化并完成第一次提交，提交号：`a6c17c6`。
 
 ---
 
-## 一、先准备这些文件
+## 一、先确认本地状态
 
-仓库根目录只需要下面这些文件（文件名不要改）：
+项目文件夹：
+
+```text
+C:\Users\Admin\Desktop\作品\D\D2
+```
+
+这个文件夹里已经有 `.git`，并且已经提交过一次。不要删除 `.git`。
+
+你的电脑已安装 Git，但可能没有加入 PATH。打开 **PowerShell**，先执行：
+
+```powershell
+cd "C:\Users\Admin\Desktop\作品\D\D2"
+$env:Path += ";C:\Program Files\Git\cmd"
+git --version
+```
+
+看到 `git version ...` 就说明当前窗口可以使用 git 了。
+
+> 每次新开 PowerShell 窗口，都要重新执行 `$env:Path += ...` 这一行。
+> 想一劳永逸，可以把 `C:\Program Files\Git\cmd` 加进 Windows 用户环境变量 PATH。
+
+---
+
+## 二、在 GitHub 创建一个空仓库
+
+1. 登录 GitHub。
+2. 右上角 `+` → **New repository**。
+3. Repository name 填：
+
+```text
+shenlun-jingwei
+```
+
+4. 选择 **Public**。
+5. **不要**勾选：
+   - Add a README file
+   - Add .gitignore
+   - Choose a license
+6. 点击 **Create repository**。
+
+创建完成后，页面会显示仓库地址，例如：
+
+```text
+https://github.com/07GUGU07/shenlun-jingwei.git
+```
+
+把 `07GUGU07` 换成你自己的 GitHub 用户名。
+
+---
+
+## 三、把本地仓库连到 GitHub
+
+在刚才的 PowerShell 窗口里执行：
+
+```powershell
+git remote add origin https://github.com/<你的用户名>/shenlun-jingwei.git
+git remote -v
+```
+
+`git remote -v` 应该显示两行 `fetch` 和 `push`，地址就是你的仓库。
+
+> 如果提示 `remote origin already exists`，说明之前加过，改用：
+>
+> ```powershell
+> git remote set-url origin https://github.com/<你的用户名>/shenlun-jingwei.git
+> ```
+
+---
+
+## 四、推送代码
+
+```powershell
+git push -u origin main
+```
+
+第一次推送时，通常会弹出 **Git Credential Manager** 窗口：
+
+1. 选择 **Sign in with your browser**；
+2. 浏览器打开 GitHub 登录页；
+3. 登录并点击 **Authorize**；
+4. 回到 PowerShell，等待推送完成。
+
+看到类似下面的输出就成功了：
+
+```text
+branch 'main' set up to track 'origin/main'.
+```
+
+如果窗口没有弹出，而是命令行让你输入用户名和密码：
+
+- Username：你的 GitHub 用户名；
+- Password：**不是** GitHub 登录密码，而是 **Personal Access Token**。
+- 创建 Token：GitHub → Settings → Developer settings → Personal access tokens → Tokens (classic) → Generate new token，勾选 `repo` 权限，复制生成的 Token 作为密码。
+
+> 推荐让 Git Credential Manager 自动弹窗，不要手动输密码。
+
+---
+
+## 五、开启 GitHub Pages
+
+1. 打开仓库页面；
+2. 顶部 **Settings**；
+3. 左侧 **Pages**；
+4. **Build and deployment**：
+   - Source：**Deploy from a branch**
+   - Branch：**main**
+   - Folder：**/ (root)**
+5. 点击 **Save**；
+6. 等待 1—3 分钟，刷新页面。
+
+页面会显示：
+
+```text
+https://<你的用户名>.github.io/shenlun-jingwei/
+```
+
+这就是手机能打开的网址。
+
+---
+
+## 六、手机打开并添加到主屏幕
+
+### iPhone / Safari
+
+1. 打开网址；
+2. 点底部 **分享**；
+3. 选 **添加到主屏幕**；
+4. 名称填「申论经纬」；
+5. 点 **添加**。
+
+### Android / Chrome
+
+1. 打开网址；
+2. 右上角 `⋮`；
+3. 选 **添加到主屏幕** / **安装应用**。
+
+图标是红底白字的「申」，打开后是独立窗口。
+
+---
+
+## 七、以后更新内容
+
+改完 `data.js`、`terms.js`、`styles.css` 或 `app.js` 后，在项目文件夹执行：
+
+```powershell
+cd "C:\Users\Admin\Desktop\作品\D\D2"
+$env:Path += ";C:\Program Files\Git\cmd"
+
+git status
+git add .
+git commit -m "update: 更新申论内容"
+git push
+```
+
+GitHub Pages 会自动重新发布，通常 1—3 分钟生效。
+
+---
+
+## 八、常见报错
+
+### 1. `git : 无法将“git”项识别为 cmdlet`
+
+说明当前窗口没有把 Git 加进 PATH。执行：
+
+```powershell
+$env:Path += ";C:\Program Files\Git\cmd"
+```
+
+### 2. `remote origin already exists`
+
+```powershell
+git remote set-url origin https://github.com/<你的用户名>/shenlun-jingwei.git
+```
+
+### 3. `failed to push some refs` / `rejected`
+
+通常是因为创建仓库时勾选了 README，远程多了一个提交。执行：
+
+```powershell
+git pull --rebase origin main
+git push -u origin main
+```
+
+### 4. 打开网址是 404
+
+检查：
+
+- 仓库里 `index.html` 是否在根目录；
+- Pages 的 Branch 是否 `main`；
+- Folder 是否 `/ (root)`；
+- 是否刚保存，等 1—3 分钟；
+- 网址末尾有没有 `/`。
+
+### 5. 页面没样式 / 没数据
+
+检查仓库里是否有：
+
+```text
+styles.css
+data.js
+terms.js
+app.js
+```
+
+文件名大小写必须一致；GitHub Pages 在 Linux 上区分大小写。
+
+### 6. 手机打开是电脑版
+
+用手机浏览器直接打开，不要在微信里长期阅读。微信里可以点右上角 → **在浏览器打开**。
+
+---
+
+## 九、备选：完全不用命令行
+
+如果 Git 命令实在跑不通，再到仓库页面用 **Add file → Upload files** 上传这些文件：
 
 ```text
 index.html
@@ -23,167 +238,20 @@ DEPLOY.md
 .nojekyll
 ```
 
-其中：
-
-- `index.html` 必须在仓库**根目录**，不能放进子文件夹。
-- `.nojekyll` 是空文件，用来跳过 GitHub 的 Jekyll 处理；不创建一般也能用。
-- 不要上传 `node_modules`、浏览器测试截图、`.edge-profile`、`.npm-cache` 等临时文件。
+然后按第五步开启 Pages。效果一样，只是以后更新要重新上传。
 
 ---
 
-## 二、创建 GitHub 仓库
+## 十、发布前检查清单
 
-1. 登录 GitHub。
-2. 右上角 `+` → **New repository**。
-3. 填写：
-   - Repository name：`shenlun-jingwei`（也可以叫 `shenlun-map`）
-   - Description：`国考/京考申论五位一体备考图谱`
-   - 选择 **Public**
-   - 不要勾选 “Add a README file”
-4. 点击 **Create repository**。
-
-> 仓库名建议用英文小写和短横线，网址更干净。不要用中文名。
+- [ ] PowerShell 里 `git --version` 正常
+- [ ] GitHub 上是 **Public** 空仓库
+- [ ] `git remote -v` 地址正确
+- [ ] `git push -u origin main` 成功
+- [ ] Pages：`main` + `/ (root)`
+- [ ] 手机打开网址正常
+- [ ] 添加到主屏幕后图标正常
 
 ---
 
-## 三、上传文件（最简单：网页上传）
-
-1. 进入刚创建的空仓库。
-2. 点击 **uploading an existing file** / **Add file → Upload files**。
-3. 把上面列出的文件全部拖进去。
-4. 在下方 Commit changes 填写：`feat: 申论经纬网页`
-5. 点击 **Commit changes**。
-
-### 如果 `.nojekyll` 传不上去
-
-网页上传对隐藏文件不友好，可以：
-
-1. 仓库页面 → **Add file → Create new file**
-2. 文件名填 `.nojekyll`
-3. 内容留空
-4. 点击 **Commit changes**
-
----
-
-## 四、开启 GitHub Pages
-
-1. 进入仓库的 **Settings**（顶部标签）。
-2. 左侧找到 **Pages**。
-3. 在 **Build and deployment** 下：
-   - Source：选择 **Deploy from a branch**
-   - Branch：选择 **main**
-   - Folder：选择 **/ (root)**
-4. 点击 **Save**。
-5. 等待 1—3 分钟，刷新 Pages 页面。
-
-页面会显示：
-
-```text
-Your site is live at https://<你的用户名>.github.io/shenlun-jingwei/
-```
-
-这就是手机可以打开的链接。
-
-> 如果仓库名是 `<你的用户名>.github.io`，网址会变成 `https://<你的用户名>.github.io/`。
-
----
-
-## 五、手机打开并添加到主屏幕
-
-### iPhone / Safari
-
-1. 用 Safari 打开网址。
-2. 点击底部 **分享** 按钮。
-3. 选择 **添加到主屏幕**。
-4. 名称填「申论经纬」，点击 **添加**。
-
-### Android / Chrome
-
-1. 用 Chrome 打开网址。
-2. 右上角 **⋮** → **添加到主屏幕** / **安装应用**。
-
-添加后，图标是红底白字的「申」；打开后是独立窗口，适合每天背几个主题。
-
----
-
-## 六、以后怎么更新
-
-每次改完 `data.js`、`terms.js`、`styles.css` 或 `app.js`：
-
-1. 进入仓库。
-2. 打开对应文件 → 右上角铅笔图标编辑 → Commit changes。
-3. 或者重新 **Add file → Upload files** 覆盖旧文件。
-4. GitHub Pages 会自动重新发布，通常 1—3 分钟生效。
-
-手机上如果看到旧版本，强制刷新或重新打开链接。
-
----
-
-## 七、用 Git 命令上传（可选）
-
-如果你电脑上装了 Git，可以在网页文件夹里执行：
-
-```bash
-git init
-git add .
-git commit -m "feat: 申论经纬五位一体备考图谱"
-git branch -M main
-git remote add origin https://github.com/<你的用户名>/shenlun-jingwei.git
-git push -u origin main
-```
-
-然后按第四步开启 Pages。
-
-> 把 `<你的用户名>` 换成你的 GitHub 用户名。不要直接把尖括号一起复制。
-
----
-
-## 八、常见问题
-
-### 1. 打开是 404
-
-依次检查：
-
-- `index.html` 是否在仓库根目录；
-- Pages 的 Branch 是否选了 `main`，Folder 是否选了 `/ (root)`；
-- 是否刚保存，等待 1—3 分钟；
-- 网址末尾是否有 `/`。
-
-### 2. 页面没有样式 / 没有数据
-
-- 检查 `styles.css`、`data.js`、`terms.js`、`app.js` 是否都上传了；
-- 文件名大小写必须一致（GitHub Pages 在 Linux 上区分大小写）；
-- 不要把这些文件放进 `assets` 子文件夹后仍用原来的相对路径。
-
-### 3. 手机打开是电脑版排版
-
-- 确认 `index.html` 里有：
-  `<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />`
-- 用手机浏览器直接打开，不要在微信内置浏览器里长期阅读；微信里可以点右上角“在浏览器打开”。
-
-### 4. 添加到主屏幕后没有图标
-
-- 确认 `icon-180.png`、`icon-512.png`、`manifest.webmanifest` 已上传；
-- iOS 对 SVG 图标支持不稳定，所以这里同时准备了 PNG；
-- 删除旧的主屏幕图标，重新添加一次。
-
-### 5. 想改成自己的域名
-
-- 在仓库 Settings → Pages → Custom domain 填写域名；
-- 在域名服务商处添加 CNAME 记录指向 `<你的用户名>.github.io`；
-- 开启 HTTPS。
-
----
-
-## 九、发布前检查清单
-
-- [ ] `index.html` 在根目录
-- [ ] `styles.css`、`data.js`、`terms.js`、`app.js` 都已上传
-- [ ] `manifest.webmanifest`、`icon-180.png`、`icon-512.png` 已上传
-- [ ] Pages 的 Branch 是 `main`，Folder 是 `/ (root)`
-- [ ] 手机打开后能正常展开子主题、看到规范词释义
-- [ ] 添加到主屏幕后图标和名称正常
-
----
-
-发布成功后，把网址发给我，我可以继续帮你检查手机端显示，或者加“真题—主题映射表”。
+发布成功后，把网址发给我，我可以继续帮你检查手机端显示。
