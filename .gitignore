@@ -1,0 +1,15 @@
+# 本地测试与编辑器临时文件
+node_modules/
+.npm-cache/
+.edge-profile*/
+*.log
+.DS_Store
+Thumbs.db
+
+# 本地截图（页面正式图标 icon-*.png 不要忽略）
+mobile-*.png
+desktop-*.png
+final-check.png
+dom.html
+test-dom*.js
+terms-list.txt

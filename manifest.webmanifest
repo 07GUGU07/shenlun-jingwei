@@ -1,0 +1,29 @@
+{
+  "name": "申论经纬 · 五位一体备考图谱",
+  "short_name": "申论经纬",
+  "description": "国考、京考申论五位一体主题备考图谱：观点逻辑、规范词释义、金句与精炼案例。",
+  "lang": "zh-CN",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#f4efe5",
+  "theme_color": "#a33b2c",
+  "icons": [
+    {
+      "src": "icon-180.png",
+      "sizes": "180x180",
+      "type": "image/png"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ]
+}

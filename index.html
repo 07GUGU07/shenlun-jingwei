@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#f4efe5" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta name="apple-mobile-web-app-title" content="申论经纬" />
+  <meta name="description" content="国考、京考申论五位一体主题备考图谱：51个子主题、观点逻辑、规范词释义、金句与精炼案例，标注国考高频、京考高频、京考独有与行政执法卷。" />
+  <title>申论经纬 · 五位一体备考图谱</title>
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="icon" href="icon.svg" type="image/svg+xml" />
+  <link rel="icon" href="icon-180.png" sizes="180x180" type="image/png" />
+  <link rel="apple-touch-icon" href="icon-180.png" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="paper-grain" aria-hidden="true"></div>
+
+  <header class="topbar" id="topbar">
+    <a class="brand" href="#/" aria-label="回到首页">
+      <span class="brand-seal">申</span>
+      <span class="brand-copy">
+        <strong>申论经纬</strong>
+        <em>五位一体备考图谱</em>
+      </span>
+    </a>
+
+    <nav class="topnav" aria-label="主导航">
+      <a href="#/" data-nav="home">主题地图</a>
+      <a href="#/exam" data-nav="exam">三卷坐标</a>
+      <a href="#/highlights" data-nav="highlights">高频速查</a>
+    </nav>
+
+    <div class="topbar-actions">
+      <button class="icon-btn search-trigger" type="button" aria-label="搜索主题、规范词、案例">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6.5"></circle><path d="m16 16 4.2 4.2"></path></svg>
+        <span>搜索</span>
+        <kbd>/</kbd>
+      </button>
+      <div class="mini-progress" title="整体掌握进度">
+        <span class="mini-progress-text" id="miniProgressText">0 / 51</span>
+        <span class="mini-progress-bar"><i id="miniProgressBar"></i></span>
+      </div>
+      <button class="icon-btn menu-btn" type="button" aria-label="打开导航菜单" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </header>
+
+  <main id="app" tabindex="-1"></main>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <span class="brand-seal small">申</span>
+        <div>
+          <strong>申论经纬</strong>
+          <p>把散落的热点，编成一张能带进考场的网。</p>
+        </div>
+      </div>
+      <div class="footer-meta">
+        <p>内容依据国考、京考公共科目大纲及官方公开报道整理，截至 2026 年 11 月。</p>
+        <p>案例用于写作积累，引用时请以官方原文为准；进度保存在本机浏览器。</p>
+      </div>
+      <div class="footer-actions">
+        <button type="button" class="text-btn" id="printBtn">打印当前页</button>
+        <button type="button" class="text-btn" id="resetBtn">重置学习进度</button>
+      </div>
+    </div>
+  </footer>
+
+  <!-- 搜索 -->
+  <div class="search-overlay" id="searchOverlay" hidden>
+    <div class="search-panel" role="dialog" aria-modal="true" aria-labelledby="searchTitle">
+      <div class="search-head">
+        <h2 id="searchTitle">搜一个主题，或一句能写进文章的话</h2>
+        <button class="close-btn" type="button" id="searchClose" aria-label="关闭搜索">×</button>
+      </div>
+      <label class="search-field">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6.5"></circle><path d="m16 16 4.2 4.2"></path></svg>
+        <input id="searchInput" type="search" placeholder="如：新质生产力、枫桥经验、接诉即办、一老一小" autocomplete="off" />
+        <kbd>ESC</kbd>
+      </label>
+      <div class="search-hints" id="searchHints">
+        <span>试试：</span>
+        <button type="button" data-search-jump="新质生产力">新质生产力</button>
+        <button type="button" data-search-jump="枫桥经验">枫桥经验</button>
+        <button type="button" data-search-jump="接诉即办">接诉即办</button>
+        <button type="button" data-search-jump="一老一小">一老一小</button>
+      </div>
+      <div class="search-results" id="searchResults"></div>
+    </div>
+  </div>
+
+  <!-- 随机抽背 -->
+  <div class="recall-overlay" id="recallOverlay" hidden>
+    <div class="recall-card" role="dialog" aria-modal="true" aria-labelledby="recallTitle">
+      <div class="recall-top">
+        <span class="eyebrow">随机抽背</span>
+        <button class="close-btn" type="button" id="recallClose" aria-label="关闭抽背">×</button>
+      </div>
+      <p class="recall-theme" id="recallTheme"></p>
+      <h2 id="recallTitle"></h2>
+      <p class="recall-question" id="recallQuestion"></p>
+      <div class="recall-actions">
+        <button type="button" class="btn ghost" id="recallAgain">再抽一个</button>
+        <button type="button" class="btn primary" id="recallReveal">查看答案</button>
+      </div>
+      <p class="recall-foot">先用自己的话说 30 秒，再对照“观点逻辑”查漏补缺。</p>
+    </div>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <button class="back-top" id="backTop" type="button" aria-label="回到顶部">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 19V5M5.5 11.5 12 5l6.5 6.5"></path></svg>
+  </button>
+
+  <script src="data.js"></script>
+  <script src="terms.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
